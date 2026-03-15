@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hello Miranda</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink-light: #f472b6;
+    --pink-mid:   #ec4899;
+    --pink-soft:  #fce7f3;
+    --pink-pale:  #fdf2f8;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── LIGHT MODE ── */
+  @media (prefers-color-scheme: light) {
+    body { background: #fdf2f8; }
+    .blob-1 { background: radial-gradient(circle, #f9a8d4 0%, transparent 70%); }
+    .blob-2 { background: radial-gradient(circle, #fbcfe8 0%, transparent 70%); }
+    .blob-3 { background: radial-gradient(circle, #fde68a 0%, transparent 70%); }
+    .card {
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(244, 114, 182, 0.25);
+      box-shadow: 0 8px 40px rgba(236, 72, 153, 0.08);
+    }
+    .greeting { color: #ec4899; }
+    .date-line { color: #db2777; }
+    .sub      { color: #f472b6; }
+    .emoji-glow { filter: drop-shadow(0 0 8px rgba(236,72,153,0.45)); }
+  }
+
+  /* ── DARK MODE ── */
+  @media (prefers-color-scheme: dark) {
+    body { background: #1a0a14; }
+    .blob-1 { background: radial-gradient(circle, #9d174d55 0%, transparent 70%); }
+    .blob-2 { background: radial-gradient(circle, #be185d44 0%, transparent 70%); }
+    .blob-3 { background: radial-gradient(circle, #7c3aed33 0%, transparent 70%); }
+    .card {
+      background: rgba(30, 10, 22, 0.65);
+      border: 1px solid rgba(244, 114, 182, 0.18);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.45), inset 0 0 60px rgba(236,72,153,0.04);
+    }
+    .greeting { color: #f9a8d4; }
+    .date-line { color: #f472b6; }
+    .sub      { color: #db2777; }
+    .emoji-glow { filter: drop-shadow(0 0 12px rgba(249,168,212,0.6)); }
+  }
+
+  /* ── ANIMATED BLOBS ── */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: drift linear infinite;
+  }
+  .blob-1 { width: 480px; height: 480px; top: -120px; left: -100px; animation-duration: 18s; }
+  .blob-2 { width: 360px; height: 360px; bottom: -80px; right: -60px; animation-duration: 22s; animation-delay: -6s; }
+  .blob-3 { width: 300px; height: 300px; bottom: 10%; left: 30%; animation-duration: 26s; animation-delay: -12s; }
+
+  @keyframes drift {
+    0%   { transform: translate(0,0) scale(1); }
+    33%  { transform: translate(30px,-25px) scale(1.05); }
+    66%  { transform: translate(-20px, 20px) scale(0.97); }
+    100% { transform: translate(0,0) scale(1); }
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 28px;
+    padding: 52px 64px;
+    text-align: center;
+    max-width: 480px;
+    width: 90vw;
+    animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── EMOJI ── */
+  .emoji {
+    font-size: 3.2rem;
+    display: block;
+    margin-bottom: 20px;
+    animation: pulse 3.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.12); }
+  }
+
+  /* ── GREETING ── */
+  .greeting {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 4.5vw, 1.9rem);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .greeting em {
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* ── DATE ── */
+  .date-line {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    letter-spacing: 0.01em;
+    margin-bottom: 4px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 48px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #f472b6, transparent);
+    margin: 20px auto;
+    border-radius: 2px;
+  }
+
+  /* ── TIME ── */
+  .time-display {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  @media (prefers-color-scheme: light) { .time-display { color: #db2777; } }
+  @media (prefers-color-scheme: dark)  { .time-display { color: #f9a8d4; } }
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="card">
+  <span class="emoji emoji-glow" id="emoji">☀️</span>
+  <p class="greeting" id="greeting">Good morning, <em>Miranda!</em></p>
+  <div class="divider"></div>
+  <p class="date-line" id="dateline">Monday, March 14</p>
+  <p class="time-display" id="clock">10:32 AM</p>
+</div>
+
+<script>
+  const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function update() {
+    const now  = new Date();
+    const h    = now.getHours();
+    const min  = now.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12  = h % 12 || 12;
+    const minStr = String(min).padStart(2,'0');
+
+    const day   = days[now.getDay()];
+    const month = months[now.getMonth()];
+    const date  = now.getDate();
+
+    let emoji, label;
+    if (h >= 5 && h < 12) {
+      emoji = '☀️'; label = 'Good morning';
+    } else if (h >= 12 && h < 20) {
+      emoji = '🌆'; label = 'Good evening';
+    } else {
+      emoji = '🌙'; label = 'Good night';
+    }
+
+    document.getElementById('emoji').textContent    = emoji;
+    document.getElementById('greeting').innerHTML   = `${label}, <em>Miranda!</em>`;
+    document.getElementById('dateline').textContent = `${day}, ${month} ${date}`;
+    document.getElementById('clock').textContent    = `${h12}:${minStr} ${ampm}`;
+  }
+
+  update();
+  setInterval(update, 10000);
+</script>
+</body>
+</html>
