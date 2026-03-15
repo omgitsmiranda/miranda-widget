@@ -1,118 +1,107 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hello Miranda</title>
+<title>Miranda Widget</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    font-family: 'DM Sans', sans-serif;
-    overflow: hidden;
-  }
+html, body {
+width: 100%;
+height: 100%;
+background: transparent;
+font-family: ‘DM Sans’, sans-serif;
+display: flex;
+align-items: flex-start;
+justify-content: flex-start;
+}
 
-  /* ── LIGHT MODE ── */
-  @media (prefers-color-scheme: light) {
-    body { background: transparent; }
-    .card {
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(244,114,182,0.25);
-      box-shadow: 0 2px 16px rgba(236,72,153,0.08);
-    }
-    .greeting { color: #ec4899; }
-    .meta     { color: #db2777; }
-    .dot      { color: #f9a8d4; }
-  }
+/* ── LIGHT MODE ── */
+@media (prefers-color-scheme: light) {
+.card {
+background: rgba(255,255,255,0.55);
+border: 1px solid rgba(244,114,182,0.25);
+box-shadow: 0 2px 16px rgba(236,72,153,0.08);
+}
+.greeting { color: #ec4899; }
+.meta     { color: #db2777; }
+.dot      { color: #f9a8d4; }
+}
 
-  /* ── DARK MODE ── */
-  @media (prefers-color-scheme: dark) {
-    body { background: transparent; }
-    .card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(244,114,182,0.18);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
-    }
-    .greeting { color: #f9a8d4; }
-    .meta     { color: #f472b6; }
-    .dot      { color: #db2777; }
-  }
+/* ── DARK MODE ── */
+@media (prefers-color-scheme: dark) {
+.card {
+background: rgba(255,255,255,0.06);
+border: 1px solid rgba(244,114,182,0.18);
+box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+.greeting { color: #f9a8d4; }
+.meta     { color: #f472b6; }
+.dot      { color: #db2777; }
+}
 
-  /* ── LAYOUT ── */
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-  }
+.card {
+display: flex;
+align-items: center;
+gap: clamp(10px, 2.5vw, 24px);
+padding: clamp(14px, 2.5vw, 22px) clamp(20px, 4vw, 40px);
+border-radius: 18px;
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+width: 100%;
+animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) both;
+}
 
-  .card {
-    position: relative;
-    z-index: 1;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: clamp(16px, 3vw, 28px) clamp(24px, 5vw, 48px);
-    width: 100%;
-    max-width: 900px;
-    animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) both;
-    display: flex;
-    align-items: center;
-    gap: clamp(12px, 3vw, 28px);
-    flex-wrap: wrap;
-  }
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(12px); }
+to   { opacity: 1; transform: translateY(0); }
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+.emoji {
+font-size: clamp(1.4rem, 3.5vw, 2rem);
+flex-shrink: 0;
+animation: pulse 4s ease-in-out infinite;
+}
 
-  /* ── EMOJI ── */
-  .emoji {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    flex-shrink: 0;
-    animation: pulse 4s ease-in-out infinite;
-  }
+@keyframes pulse {
+0%, 100% { transform: scale(1); }
+50%       { transform: scale(1.15); }
+}
 
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50%       { transform: scale(1.15); }
-  }
+.text {
+display: flex;
+align-items: baseline;
+flex-wrap: wrap;
+gap: 0 10px;
+flex: 1;
+}
 
-  /* ── TEXT BLOCK ── */
-  .text {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0 10px;
-    flex: 1;
-  }
+.greeting {
+font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+font-weight: 400;
+white-space: nowrap;
+}
 
-  .greeting {
-    font-size: clamp(1rem, 2.8vw, 1.5rem);
-    font-weight: 400;
-    white-space: nowrap;
-  }
+.greeting strong {
+font-weight: 500;
+}
 
-  .greeting strong {
-    font-weight: 500;
-  }
+.dot {
+font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+font-weight: 300;
+}
 
-  .dot {
-    font-size: clamp(1rem, 2.8vw, 1.5rem);
-    font-weight: 300;
-  }
-
-  .meta {
-    font-size: clamp(0.85rem, 2.2vw, 1.2rem);
-    font-weight: 300;
-    white-space: nowrap;
-    opacity: 0.85;
-  }
+.meta {
+font-size: clamp(0.8rem, 2vw, 1.1rem);
+font-weight: 300;
+white-space: nowrap;
+opacity: 0.85;
+}
 </style>
+
 </head>
 <body>
 
@@ -121,7 +110,7 @@
   <div class="text">
     <span class="greeting" id="greeting">Good morning, <strong>Miranda</strong></span>
     <span class="dot">·</span>
-    <span class="meta" id="meta">Saturday, March 14  ·  10:32 AM</span>
+    <span class="meta" id="meta">Saturday, March 15  ·  9:15 AM</span>
   </div>
 </div>
 
@@ -137,23 +126,23 @@
     const ampm   = h >= 12 ? 'PM' : 'AM';
     const h12    = h % 12 || 12;
     const minStr = String(min).padStart(2,'0');
-
-    const day   = days[now.getDay()];
-    const month = months[now.getMonth()];
-    const date  = now.getDate();
+    const day    = days[now.getDay()];
+    const month  = months[now.getMonth()];
+    const date   = now.getDate();
 
     let emoji, label;
     if (h >= 5 && h < 12)       { emoji = '☀️';  label = 'Good morning'; }
     else if (h >= 12 && h < 20) { emoji = '🌆';  label = 'Good evening'; }
     else                         { emoji = '🌙';  label = 'Good night';   }
 
-    document.getElementById('emoji').textContent   = emoji;
-    document.getElementById('greeting').innerHTML  = `${label}, <strong>Miranda</strong>`;
-    document.getElementById('meta').textContent    = `${day}, ${month} ${date}  ·  ${h12}:${minStr} ${ampm}`;
+    document.getElementById('emoji').textContent  = emoji;
+    document.getElementById('greeting').innerHTML = `${label}, <strong>Miranda</strong>`;
+    document.getElementById('meta').textContent   = `${day}, ${month} ${date}  ·  ${h12}:${minStr} ${ampm}`;
   }
 
   update();
   setInterval(update, 10000);
 </script>
+
 </body>
 </html>
